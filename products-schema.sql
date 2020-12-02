@@ -6,13 +6,12 @@
 DROP TABLE IF EXISTS products;
 
 CREATE TABLE products (
-  product_id INT NOT NULL,
+  product_id INT NOT NULL PRIMARY KEY,
   name TEXT NOT NULL,
   slogan TEXT,
   description TEXT,
   category TEXT,
-  default_price DECIMAL,
-  PRIMARY KEY (product_id)
+  default_price DECIMAL
 );
 
 COPY products(product_id, name, slogan, description, category, default_price)
