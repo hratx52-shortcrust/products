@@ -9,10 +9,16 @@ const client = new Client({
 client.connect();
 
 const getProducts = async function(page = 1, count = 5)  {
+  if (page < 1) {
+    return Promise.reject(new Error('Page must be greater than 0'));
+  }
+  if (count < 1) {
+    return Promise.reject(new Error('Count must be greater than 0'));
+  }
 
   // The original API used the column name "id", rather than "product_id"
   // so we will rename that column here
-  const q = `
+  const text = `
     SELECT
       product_id AS id,
       name,
@@ -21,10 +27,15 @@ const getProducts = async function(page = 1, count = 5)  {
       category,
       default_price
     FROM products
-    LIMIT 5
-    OFFSET 0;
+    LIMIT $1
+    OFFSET $2;
   `;
-  const res = await client.query(q);
+
+  // first value is LIMIT
+  // second value is OFFSET
+  const values = [count, count*(page - 1)];
+
+  const res = await client.query(text, values);
   return res.rows;
 };
 

@@ -13,7 +13,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/products', (req, res) => {
-  db.getProducts()
+  db.getProducts(req.query.page, req.query.results)
     .then( products => {
       res.send(products);
     })
