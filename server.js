@@ -1,5 +1,5 @@
 const express = require('express');
-const db = require('./database.js')
+const db = require('./database.js');
 
 const app = express();
 const port = 3000;
@@ -13,7 +13,14 @@ app.get('/', (req, res) => {
 });
 
 app.get('/products', (req, res) => {
-  res.send('Will return a list of products');
+  db.getProducts()
+    .then( products => {
+      res.send(products);
+    })
+    .catch( err => {
+      console.log('Error when sending query for products:', err);
+      res.status(500).send(err);
+    });
 });
 
 app.get('/products/:product_id', (req, res) => {
