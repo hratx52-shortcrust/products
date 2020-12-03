@@ -70,4 +70,30 @@ const getProduct = async function(id) {
   return itemInfo;
 };
 
-module.exports = { getProducts, getProduct };
+const getStyles = async function(id) {
+  // Typecast 'true' 'false' to '1' '0'
+  // default_style::INT
+  const text = `
+    SELECT
+      default_style::INT as "default?",
+      name,
+      original_price,
+      sale_price,
+      style_id
+    FROM product_styles
+    WHERE product_id=$1;
+  `;
+
+  let values = [id];
+
+  const res = await client.query(text, values);
+  let styleInfo = {product_id: id}
+  styleInfo.results = res.rows;
+  let photos = [];
+  for(style of styleInfo.results) {
+    console.log(style.style_id);
+  }
+  return styleInfo;
+}
+
+module.exports = { getProducts, getProduct, getStyles };

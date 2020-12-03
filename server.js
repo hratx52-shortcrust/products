@@ -45,7 +45,14 @@ app.get('/products/:product_id', (req, res) => {
 });
 
 app.get('/products/:product_id/styles', (req, res) => {
-  res.send(`Will return styles for product ${req.params.product_id}`);
+  db.getStyles(req.params.product_id)
+    .then( styles => {
+      res.send(styles);
+    })
+    .catch( err => {
+      console.log('Error when sending query for styles with product id ' + req.params.product_id + ':', err);
+      res.status(500).send(err);
+    })
 });
 
 app.get('/products/:product_id/related', (req, res) => {
