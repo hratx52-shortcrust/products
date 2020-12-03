@@ -1,6 +1,12 @@
 const express = require('express');
+const db = require('./database.js')
+
 const app = express();
 const port = 3000;
+
+app.listen(port, () => {
+  console.log(`Server listening on port ${port}`);
+});
 
 app.get('/', (req, res) => {
   res.send('Hello, world!');
@@ -20,8 +26,4 @@ app.get('/products/:product_id/styles', (req, res) => {
 
 app.get('/products/:product_id/related', (req, res) => {
   res.send(`Will items realted to product ${req.params.product_id}`);
-});
-
-app.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
 });
