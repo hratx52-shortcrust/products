@@ -5,8 +5,8 @@
 
 DROP TABLE IF EXISTS product_style_photos;
 
--- The problem with this csv is that the id column cannot be trusted
--- there is a duplicate key
+-- in this csv, the id column cannot be trusted
+-- there is a duplicate key:
 -- ERROR:  duplicate key value violates unique constraint "product_style_photos_pkey"
 -- DETAIL:  Key (photo_id)=(357) already exists.
 -- so we make a dummn column, photo_id_from_csv, and delete it after the copy command
