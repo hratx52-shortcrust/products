@@ -90,6 +90,7 @@ const getStyles = async function(id) {
   let styleInfo = {product_id: id}
   styleInfo.results = res.rows;
   let photoPromises = [];
+  let skuPromises = [];
   for(style of styleInfo.results) {
     text = `
       SELECT thumbnail_url, url
@@ -99,16 +100,36 @@ const getStyles = async function(id) {
     values=[style.style_id];
     console.log(style.style_id);
     photoPromises.push(client.query(text, values));
+
+    text = `
+      SELECT sku_id, quantity, size
+      FROM product_style_skus
+      WHERE style_id=$1;
+    `;
+    // values=[style.style_id];
+    console.log(style.style_id);
+    skuPromises.push(client.query(text, values));
   }
   console.log(photoPromises);
-  let resArray = await (Promise.all(photoPromises));
+  let photoResArray = await (Promise.all(photoPromises));
+  let skuResArray = await (Promise.all(skuPromises));
 
-  // We now have 2 arrays: styleInfo.results and resArray
+  // We now have 3 arrays: styleInfo.results, photoResArray, and skuResArray
   // each entry of styleInfo.results is an object
-  // we need to add a new key to each obejct in the styleInfo.results array:
-  // key: photos, with array value: [{thumbnail_url: 'example.com/thumbnail', url:'example.com/photo'},{...}]
+  // we need to add 2 new keys to each obejct of the styleInfo.results array:
+  // key: photos, with array
+  // value: [{thumbnail_url: 'example.com/thumbnail', url:'example.com/photo'},{...},{...}]
+  // key: skus
+  // value: an object, not an array
+  // {37: {quantity: 8, size: 'S'}, 38: {quantity: 16, size:'M', 39: {...}, ...}
   for(index in styleInfo.results) {
-    styleInfo.results[index].photos = resArray[index].rows;
+    styleInfo.results[index].photos = photoResArray[index].rows;
+    styleInfo.results[index].skus = {};
+    for (sku of skuResArray[index].rows) {
+      var quantity = sku.quantity;
+      var size = sku.size;
+      styleInfo.results[index].skus[sku.sku_id] = {quantity, size};
+    }
   }
   return styleInfo;
 }
