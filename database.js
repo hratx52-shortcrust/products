@@ -92,17 +92,23 @@ const getStyles = async function(id) {
   let photoPromises = [];
   for(style of styleInfo.results) {
     text = `
-      SELECT *
+      SELECT thumbnail_url, url
       FROM product_style_photos
-      WHERE style_id=$1
+      WHERE style_id=$1;
     `;
     values=[style.style_id];
+    console.log(style.style_id);
     photoPromises.push(client.query(text, values));
   }
   console.log(photoPromises);
   let resArray = await (Promise.all(photoPromises));
-  for(res of resArray) {
-    console.log(res.rows);
+
+  // We now have 2 arrays: styleInfo.results and resArray
+  // each entry of styleInfo.results is an object
+  // we need to add a new key to each obejct in the styleInfo.results array:
+  // key: photos, with array value: [{thumbnail_url: 'example.com/thumbnail', url:'example.com/photo'},{...}]
+  for(index in styleInfo.results) {
+    styleInfo.results[index].photos = resArray[index].rows;
   }
   return styleInfo;
 }
