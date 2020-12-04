@@ -73,7 +73,7 @@ const getProduct = async function(id) {
 const getStyles = async function(id) {
   // Typecast 'true' 'false' to '1' '0'
   // default_style::INT
-  const text = `
+  let text = `
     SELECT
       default_style::INT as "default?",
       name,
@@ -86,12 +86,23 @@ const getStyles = async function(id) {
 
   let values = [id];
 
-  const res = await client.query(text, values);
+  var res = await client.query(text, values);
   let styleInfo = {product_id: id}
   styleInfo.results = res.rows;
-  let photos = [];
+  let photoPromises = [];
   for(style of styleInfo.results) {
-    console.log(style.style_id);
+    text = `
+      SELECT *
+      FROM product_style_photos
+      WHERE style_id=$1
+    `;
+    values=[style.style_id];
+    photoPromises.push(client.query(text, values));
+  }
+  console.log(photoPromises);
+  let resArray = await (Promise.all(photoPromises));
+  for(res of resArray) {
+    console.log(res.rows);
   }
   return styleInfo;
 }
