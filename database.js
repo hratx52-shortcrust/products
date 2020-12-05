@@ -132,6 +132,16 @@ const getStyles = async function(id) {
 }
 
 const getRelatedProducts = async function(id) {
-  return [6,2,7,1];
+  const text = `
+    SELECT
+      related_product_id
+    FROM related_products
+    WHERE current_product_id=$1
+  `;
+
+  const values = [id];
+
+  const related_products = await client.query(text, values);
+  return related_products.rows.map(row => row.related_product_id);
 }
 module.exports = { getProducts, getProduct, getStyles, getRelatedProducts };
