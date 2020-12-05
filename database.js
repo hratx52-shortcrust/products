@@ -98,7 +98,6 @@ const getStyles = async function(id) {
       WHERE style_id=$1;
     `;
     values=[style.style_id];
-    console.log(style.style_id);
     photoPromises.push(client.query(text, values));
 
     text = `
@@ -107,10 +106,8 @@ const getStyles = async function(id) {
       WHERE style_id=$1;
     `;
     // values=[style.style_id];
-    console.log(style.style_id);
     skuPromises.push(client.query(text, values));
   }
-  console.log(photoPromises);
   let photoResArray = await (Promise.all(photoPromises));
   let skuResArray = await (Promise.all(skuPromises));
 
@@ -134,4 +131,7 @@ const getStyles = async function(id) {
   return styleInfo;
 }
 
-module.exports = { getProducts, getProduct, getStyles };
+const getRelatedProducts = async function(id) {
+  return [6,2,7,1];
+}
+module.exports = { getProducts, getProduct, getStyles, getRelatedProducts };

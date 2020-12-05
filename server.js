@@ -56,5 +56,12 @@ app.get('/products/:product_id/styles', (req, res) => {
 });
 
 app.get('/products/:product_id/related', (req, res) => {
-  res.send(`Will items realted to product ${req.params.product_id}`);
+  db.getRelatedProducts(req.params.product_id)
+  .then( relatedProducts => {
+    res.send(relatedProducts);
+  })
+  .catch( err => {
+    console.log('Error when sending query for relatedProducts with id ' + req.params.product_id + ':', err);
+    res.status(500).send(err);
+  });
 });
