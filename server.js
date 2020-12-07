@@ -26,7 +26,7 @@ app.get('/products', (req, res) => {
     is referred to by express as 'query'
     From the above example, this would set req.query.page = 2; and req.query.results = 5
   */
-  db.getProducts(req.query.page, req.query.results)
+  db.getProducts(req.query.page, req.query.results) // TODO: isn't this parameter called 'count', not 'results'?
     .then(products => {
       res.send(products);
     })

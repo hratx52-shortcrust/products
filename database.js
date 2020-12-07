@@ -40,7 +40,7 @@ const getProducts = async function(page = 1, count = 5) {
 };
 
 const getProduct = async function(id = 1) {
-  console.log('getProduct id:', id, 'type:', typeof(id));
+  // console.log('getProduct id:', id, 'type:', typeof(id));
   if (id === 'null') {
     console.log('Received an id of "null" (the string!) in getProduct, setting it to 1');
     id = 1;
@@ -76,7 +76,7 @@ const getProduct = async function(id = 1) {
 };
 
 const getStyles = async function(id) {
-  console.log('getStyles id:', id, 'type:', typeof(id));
+  // console.log('getStyles id:', id, 'type:', typeof(id));
   if (id === 'null') {
     console.log('Received an id of "null" (the string!) in getStyles, setting it to 1');
     id = 1;
@@ -142,7 +142,7 @@ const getStyles = async function(id) {
 }
 
 const getRelatedProducts = async function(id) {
-  console.log('getRelatedProducts id:', id, 'type:', typeof(id));
+  // console.log('getRelatedProducts id:', id, 'type:', typeof(id));
   if (id === 'null') {
     console.log('Received an id of "null" (the string!) in getRelatedProducts, setting it to 1');
     id = 1;
@@ -159,4 +159,4 @@ const getRelatedProducts = async function(id) {
   const related_products = await client.query(text, values);
   return related_products.rows.map(row => row.related_product_id);
 }
-module.exports = { getProducts, getProduct, getStyles, getRelatedProducts };
+module.exports = { getProducts, getProduct, getStyles, getRelatedProducts, client };
