@@ -39,7 +39,12 @@ const getProducts = async function(page = 1, count = 5) {
   return products.rows;
 };
 
-const getProduct = async function(id) {
+const getProduct = async function(id = 1) {
+  console.log('getProduct id:', id, 'type:', typeof(id));
+  if (id === 'null') {
+    console.log('Received an id of "null" (the string!) in getProduct, setting it to 1');
+    id = 1;
+  }
   let text = `
     SELECT
       product_id AS id,
@@ -71,15 +76,20 @@ const getProduct = async function(id) {
 };
 
 const getStyles = async function(id) {
+  console.log('getStyles id:', id, 'type:', typeof(id));
+  if (id === 'null') {
+    console.log('Received an id of "null" (the string!) in getStyles, setting it to 1');
+    id = 1;
+  }
   // Typecast 'true' 'false' to '1' '0'
   // default_style::INT
   let text = `
     SELECT
-      default_style::INT as "default?",
+      style_id,
       name,
       original_price,
       sale_price,
-      style_id
+      default_style::INT as "default?"
     FROM product_styles
     WHERE product_id=$1;
   `;
@@ -132,6 +142,11 @@ const getStyles = async function(id) {
 }
 
 const getRelatedProducts = async function(id) {
+  console.log('getRelatedProducts id:', id, 'type:', typeof(id));
+  if (id === 'null') {
+    console.log('Received an id of "null" (the string!) in getRelatedProducts, setting it to 1');
+    id = 1;
+  }
   const text = `
     SELECT
       related_product_id

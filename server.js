@@ -1,8 +1,10 @@
 const express = require('express');
+var cors = require('cors')
 const db = require('./database.js');
 
 const app = express();
-const port = 3000;
+app.use(cors());
+const port = 3142;
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
@@ -13,6 +15,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/products', (req, res) => {
+  console.log('Handling GET request at /products');
   /*
     The stuff after a ? in a URL are called 'parameters'
     but express uses the word 'params' to refer to the stuff after a ':', for example:
@@ -24,21 +27,22 @@ app.get('/products', (req, res) => {
     From the above example, this would set req.query.page = 2; and req.query.results = 5
   */
   db.getProducts(req.query.page, req.query.results)
-    .then( products => {
+    .then(products => {
       res.send(products);
     })
-    .catch( err => {
+    .catch(err => {
       console.log('Error when sending query for products:', err);
       res.status(500).send(err);
     });
 });
 
 app.get('/products/:product_id', (req, res) => {
+  console.log('Handling GET request at /products/:product_id', req.params.product_id);
   db.getProduct(req.params.product_id)
-    .then( product => {
+    .then(product => {
       res.send(product);
     })
-    .catch( err => {
+    .catch(err => {
       console.log('Error when sending query for product with id ' + req.params.product_id + ':', err);
       res.status(500).send(err);
     });
@@ -46,10 +50,10 @@ app.get('/products/:product_id', (req, res) => {
 
 app.get('/products/:product_id/styles', (req, res) => {
   db.getStyles(req.params.product_id)
-    .then( styles => {
+    .then(styles => {
       res.send(styles);
     })
-    .catch( err => {
+    .catch(err => {
       console.log('Error when sending query for styles with product id ' + req.params.product_id + ':', err);
       res.status(500).send(err);
     })
@@ -57,11 +61,11 @@ app.get('/products/:product_id/styles', (req, res) => {
 
 app.get('/products/:product_id/related', (req, res) => {
   db.getRelatedProducts(req.params.product_id)
-  .then( relatedProducts => {
-    res.send(relatedProducts);
-  })
-  .catch( err => {
-    console.log('Error when sending query for relatedProducts with id ' + req.params.product_id + ':', err);
-    res.status(500).send(err);
-  });
+    .then(relatedProducts => {
+      res.send(relatedProducts);
+    })
+    .catch(err => {
+      console.log('Error when sending query for relatedProducts with id ' + req.params.product_id + ':', err);
+      res.status(500).send(err);
+    });
 });
