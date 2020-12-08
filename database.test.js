@@ -60,7 +60,8 @@ test('getProduct returns product info with ID 9', () => {
   );
 });
 
-xtest('getStyles returns styles for product with ID 1', () => {
+test('getStyles returns styles for product with ID 1', () => {
+  jest.setTimeout(15000); // getStyles is very slow right now, taking up to 12 seconds to return a value
   expect.assertions(1);
   return expect(db.getStyles(1)).resolves.toEqual(
     {
@@ -133,12 +134,12 @@ xtest('getStyles returns styles for product with ID 1', () => {
           "default?": 0,
           "photos": [
             {
-              "thumbnail_url": "https://images.unsplash.com/photo-1560567546-4c6dbc16877b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80",
-              "url": "https://images.unsplash.com/photo-1560567546-4c6dbc16877b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=668&q=80"
-            },
-            {
               "thumbnail_url": "https://images.unsplash.com/photo-1533779183510-8f55a55f15c1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80",
               "url": "https://images.unsplash.com/photo-1533779183510-8f55a55f15c1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=668&q=80"
+            },
+            {
+              "thumbnail_url": "https://images.unsplash.com/photo-1560567546-4c6dbc16877b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80",
+              "url": "https://images.unsplash.com/photo-1560567546-4c6dbc16877b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=668&q=80"
             },
             {
               "thumbnail_url": "https://images.unsplash.com/photo-1458253329476-1ebb8593a652?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80",
@@ -423,4 +424,9 @@ xtest('getStyles returns styles for product with ID 1', () => {
       ]
     }
   );
+});
+
+test('getRelatedProducts returns products related to item 8', () => {
+  expect.assertions(1);
+  return expect(db.getRelatedProducts(8)).resolves.toEqual([2,3,4,7,9,10]);
 });

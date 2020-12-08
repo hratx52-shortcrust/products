@@ -82,13 +82,16 @@ const getStyles = async function(id) {
     id = 1;
   }
   // Typecast 'true' 'false' to '1' '0'
-  // default_style::INT
+  //   default_style::INT
+  // nonexistant sale_price are stored as null
+  //   but null values must be changed to 0
+  //   coalesce(sale_price, 0) as sale_price,
   let text = `
     SELECT
       style_id,
       name,
       original_price,
-      sale_price,
+      coalesce(sale_price, 0) as sale_price,
       default_style::INT as "default?"
     FROM product_styles
     WHERE product_id=$1;
@@ -97,7 +100,7 @@ const getStyles = async function(id) {
   let values = [id];
 
   var res = await client.query(text, values);
-  let styleInfo = {product_id: id}
+  let styleInfo = {product_id: id.toString()}
   styleInfo.results = res.rows;
   let photoPromises = [];
   let skuPromises = [];
