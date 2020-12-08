@@ -1,8 +1,9 @@
 const { Client } = require('pg');
+const pw = require('./psqlpw.js')
 
 const client = new Client({
   user: 'postgres',
-  password: 'hello123',
+  password: pw.psqlpw,
   database: 'SDC',
 });
 

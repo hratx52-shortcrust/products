@@ -105,3 +105,6 @@ dist
 
 # vscode stuff, for launching the debugger etc
 .vscode
+
+# passwords
+psqlpw.js
