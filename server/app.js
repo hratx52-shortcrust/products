@@ -1,21 +1,16 @@
 const express = require('express');
+const db = require('../database.js');
 var cors = require('cors')
-const db = require('./database.js');
 
 const app = express();
 app.use(cors());
-const port = 3142;
-
-app.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
-});
 
 app.get('/', (req, res) => {
-  res.send('Hello, world!');
-});
+  res.status(200).send('hello, world');
+})
 
 app.get('/products', (req, res) => {
-  console.log('Handling GET request at /products');
+  // console.log('Handling GET request at /products');
   /*
     The stuff after a ? in a URL are called 'parameters'
     but express uses the word 'params' to refer to the stuff after a ':', for example:
@@ -37,7 +32,7 @@ app.get('/products', (req, res) => {
 });
 
 app.get('/products/:product_id', (req, res) => {
-  console.log('Handling GET request at /products/:product_id', req.params.product_id);
+  // console.log('Handling GET request at /products/:product_id', req.params.product_id);
   db.getProduct(req.params.product_id)
     .then(product => {
       res.send(product);
@@ -69,3 +64,5 @@ app.get('/products/:product_id/related', (req, res) => {
       res.status(500).send(err);
     });
 });
+
+module.exports = app;
