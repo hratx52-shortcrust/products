@@ -2,9 +2,9 @@
   "name": "products",
   "version": "1.0.0",
   "description": "",
-  "main": "server/server.js",
+  "main": "src/server/server.js",
   "scripts": {
-    "start": "nodemon server/server.js",
+    "start": "nodemon src/server/server.js",
     "test": "jest"
   },
   "repository": {
