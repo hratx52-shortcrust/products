@@ -20,3 +20,5 @@ FROM '/home/jesse/Code/hratx52/SDC/SDC Application Data - Atelier Project/styles
 DELIMITER ','
 NULL 'null'
 CSV HEADER;
+
+CREATE INDEX styles_product_id_index ON product_styles (product_id);

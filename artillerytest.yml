@@ -1,0 +1,22 @@
+config:
+  target: http://localhost:3142
+  phases:
+    - duration: 1
+      arrivalRate: 4
+      name: Load Product Details for 1 page
+scenarios:
+  - flow:
+      - get:
+          url: "/products/1/styles"
+      - get:
+          url: "/products/1"
+      - get:
+          url: "/products/1/related"
+      - get:
+          url: "/products/2/styles"
+      - get:
+          ur1: "/products/3/styles"
+      - get:
+          url: "/products/8/styles"
+      - get:
+          url: "/products/7/styles"

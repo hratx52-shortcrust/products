@@ -26,3 +26,5 @@ DELIMITER ','
 CSV HEADER;
 
 ALTER TABLE product_style_photos DROP COLUMN photo_id_from_csv;
+
+CREATE INDEX photos_style_id_index ON product_style_photos (style_id);

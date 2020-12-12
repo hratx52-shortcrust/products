@@ -17,3 +17,5 @@ COPY product_style_skus(sku_id, style_id, size, quantity)
 FROM '/home/jesse/Code/hratx52/SDC/SDC Application Data - Atelier Project/skus.csv'
 DELIMITER ','
 CSV HEADER;
+
+CREATE INDEX skus_style_id_index ON product_style_skus (style_id);
