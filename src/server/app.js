@@ -10,7 +10,7 @@ app.get('/', (req, res) => {
 })
 
 app.get('/products', (req, res) => {
-  console.log('Handling GET request at /products');
+  // console.log('Handling GET request at /products');
   /*
     The stuff after a ? in a URL are called 'parameters'
     but express uses the word 'params' to refer to the stuff after a ':', for example:
@@ -32,7 +32,7 @@ app.get('/products', (req, res) => {
 });
 
 app.get('/products/:product_id', (req, res) => {
-  console.log('Handling GET request at /products/:product_id', req.params.product_id);
+  // console.log('Handling GET request at /products/:product_id', req.params.product_id);
   db.getProduct(req.params.product_id)
     .then(product => {
       res.send(product);
@@ -44,7 +44,7 @@ app.get('/products/:product_id', (req, res) => {
 });
 
 app.get('/products/:product_id/styles', (req, res) => {
-  console.log('Handling GET request at /products/:product_id/styles', req.params.product_id);
+  // console.log('Handling GET request at /products/:product_id/styles', req.params.product_id);
   db.getStyles(req.params.product_id)
     .then(styles => {
       res.send(styles);
@@ -56,7 +56,7 @@ app.get('/products/:product_id/styles', (req, res) => {
 });
 
 app.get('/products/:product_id/related', (req, res) => {
-  console.log('Handling GET request at /products/:product_id/related', req.params.product_id);
+  // console.log('Handling GET request at /products/:product_id/related', req.params.product_id);
   db.getRelatedProducts(req.params.product_id)
     .then(relatedProducts => {
       res.send(relatedProducts);
